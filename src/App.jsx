@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './supabaseClient';
+import { supabase } from './supabaseClient.js';
 import Header from './components/Header.jsx';
 import ActivityForm from './components/ActivityForm.jsx';
 import ActivityList from './components/ActivityList.jsx';
