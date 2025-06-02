@@ -1,6 +1,6 @@
 # Streamer Activity Ranker
 
-This is a single-page React web application that allows users to suggest and upvote activity ideas for a streamer. The site features a clean, modern design with real-time updates and responsive UI.
+This is a single page React web application that allows users to suggest and upvote activity ideas for a streamer. The site features a clean, modern design with real-time updates and responsive UI.
 
 ## ✨ Features
 
