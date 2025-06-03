@@ -1,3 +1,4 @@
+// This comment is to force a new deployment attempt.
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient.js';
 import Header from './components/Header.jsx';
