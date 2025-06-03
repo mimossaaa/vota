@@ -1,5 +1,5 @@
 import React from 'react';
-import ActivityItem from './ActivityItem';
+import ActivityItem from './ActivityItem.jsx';
 
 function ActivityList({ activities, onUpvote }) {
   if (!activities || activities.length === 0) {
