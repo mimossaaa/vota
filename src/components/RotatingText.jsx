@@ -3,15 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const RotatingText = ({
   texts,
-  mainClassName = "",
-  staggerFrom = "first", // Can be 'first' or 'last'
-  initial = { y: "100%" },
-  animate = { y: 0 },
-  exit = { y: "-120%" },
-  staggerDuration = 0.075,
-  splitLevelClassName = "",
-  transition = { type: "spring", damping: 10, stiffness: 100 },
-  rotationInterval = 3000,
+  mainClassName,
+  staggerFrom,
+  initial,
+  animate,
+  exit,
+  staggerDuration,
+  splitLevelClassName,
+  transition,
+  rotationInterval,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -21,44 +21,46 @@ const RotatingText = ({
     }, rotationInterval);
 
     return () => clearInterval(interval);
-  }, [texts.length, rotationInterval]);
+  }, [texts, rotationInterval]);
 
   const currentText = texts[currentIndex];
-  const words = currentText.split(' ');
 
-  const getCharVariants = () => ({
-    initial: initial,
-    animate: animate,
-    exit: exit,
-  });
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: staggerDuration,
+        staggerDirection: staggerFrom === "last" ? -1 : 1,
+      },
+    },
+  };
 
   return (
-    <div className={`relative inline-flex ${mainClassName}`}>
+    <div className={mainClassName}>
       <AnimatePresence mode="wait">
         <motion.div
           key={currentText}
-          className="inline-flex"
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={{
-            staggerChildren: staggerFrom === "first" ? staggerDuration : -staggerDuration,
-          }}
+          className="flex"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
         >
-          {words.map((word, wordIndex) => (
-            <span key={wordIndex} className="whitespace-nowrap inline-flex">
-              {word.split('').map((char, charIndex) => (
-                <motion.span
-                  key={charIndex}
-                  variants={getCharVariants()}
-                  transition={transition}
-                  className={splitLevelClassName}
-                >
-                  {char}
-                </motion.span>
-              ))}
-              {wordIndex < words.length - 1 && <span>&nbsp;</span>}
-            </span>
+          {currentText.split('').map((char, i) => (
+            <motion.span
+              key={i}
+              className={splitLevelClassName}
+            >
+              <motion.span
+                initial={initial}
+                animate={animate}
+                exit={exit}
+                transition={transition}
+              >
+                {char}
+              </motion.span>
+            </motion.span>
           ))}
         </motion.div>
       </AnimatePresence>
