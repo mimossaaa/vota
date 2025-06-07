@@ -65,7 +65,7 @@ function App() {
     console.log('Adding activity:', title);
     const { data, error } = await supabase
       .from('activities')
-      .insert([{ title, votes: 0 }])
+      .insert([{ title, votes: 0, created_at: new Date().toISOString() }])
       .select();
 
     if (error) {
@@ -105,10 +105,7 @@ function App() {
         <ActivityForm onAddActivity={addActivity} />
         {loading && <p className="text-center text-gray-600">Loading activities...</p>}
         {error && <p className="text-center text-red-500">Error: {error}</p>}
-        {!loading && !error && activities.length === 0 && (
-          <p className="text-center text-gray-600">No activities found. Add one!</p>
-        )}
-        {!loading && !error && activities.length > 0 && (
+        {!loading && !error && (
           <ActivityList activities={activities} onUpvote={upvoteActivity} />
         )}
       </main>
