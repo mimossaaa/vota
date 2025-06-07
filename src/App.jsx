@@ -55,7 +55,18 @@ function App() {
       setActivities([]); // Ensure activities is empty on error
     } else {
       console.log('Activities fetched successfully:', data);
-      setActivities(data);
+      const combinedActivities = data.reduce((acc, activity) => {
+        const existingActivity = acc.find(item => item.title === activity.title);
+        if (existingActivity) {
+          existingActivity.votes += activity.votes;
+        } else {
+          acc.push({ ...activity });
+        }
+        return acc;
+      }, []);
+
+      const sortedActivities = combinedActivities.sort((a, b) => b.votes - a.votes);
+      setActivities(sortedActivities);
     }
     setLoading(false);
     console.log('Finished fetching activities. Loading state:', false);
