@@ -7,6 +7,7 @@ const AnimatedList = ({
   showGradients = false,
   enableArrowNavigation = false,
   displayScrollbar = false,
+  onUpvote
 }) => {
   const listRef = useRef(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -55,8 +56,8 @@ const AnimatedList = ({
   };
 
   const listItemClassName = (index) => `
-    relative flex items-center justify-between bg-white shadow-md rounded-lg p-4 mb-4 transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-[1.02] cursor-pointer
-    ${highlightedIndex === index ? 'ring-2 ring-blue-500 ring-offset-2' : ''}
+    relative flex items-center border-b border-gray-300 py-4 cursor-pointer
+    ${highlightedIndex === index ? 'bg-gray-100' : ''}
   `;
 
   return (
@@ -69,7 +70,7 @@ const AnimatedList = ({
         ) : (
           <motion.div
             ref={listRef}
-            className="space-y-4 py-2"
+            className="py-2 border-t border-gray-300"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -82,27 +83,23 @@ const AnimatedList = ({
                   className={listItemClassName(index)}
                   onClick={() => onItemSelect(item, index)}
                 >
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
-                    <p className="text-gray-600">Votes: <span className="font-bold text-blue-600">{item.votes}</span></p>
+                  <div className="flex items-center flex-1">
+                    <span className="text-sm font-light text-gray-500 mr-4 select-none">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="text-2xl font-normal text-gray-900 uppercase tracking-wide leading-tight">
+                      {item.title}
+                    </h3>
                   </div>
-                  {/* Assuming an upvote button similar to ActivityItem if needed */}
                   <button
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent item selection on button click
-                      // This is where you would call your upvote logic
-                      // For now, it just logs, you'll need to pass upvote prop to AnimatedList
-                      if (item.onUpvote) item.onUpvote(item.id, item.votes); 
-                      else console.log('Upvote button clicked for:', item.title);
+                      e.stopPropagation();
+                      if (onUpvote) onUpvote(item.id, item.votes);
                     }}
-                    className={
-                      `ml-4 px-5 py-2 rounded-lg text-white font-semibold transition-all duration-200 ease-in-out
-                      ${item.hasVoted ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'}
-                    `}
-                    disabled={item.hasVoted}
-                    title={item.hasVoted ? 'You have already upvoted this activity' : 'Upvote this activity'}
+                    className="ml-4 text-3xl text-gray-700 hover:text-gray-900 transition-colors duration-200 ease-in-out focus:outline-none"
+                    title="Upvote this activity"
                   >
-                    {item.hasVoted ? 'Voted! 👍' : 'Upvote ▲'}
+                    &#8599;
                   </button>
                 </motion.div>
               ))}
