@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient.js';
 import Header from './components/Header.jsx';
 import ActivityForm from './components/ActivityForm.jsx';
-import AnimatedList from './components/AnimatedList.jsx';
+import ActivityList from './components/ActivityList.jsx';
 // This comment is to force a new deployment attempt in case of a bug or faliure.
 
 function App() {
@@ -55,18 +55,7 @@ function App() {
       setActivities([]); // Ensure activities is empty on error
     } else {
       console.log('Activities fetched successfully:', data);
-      const combinedActivities = data.reduce((acc, activity) => {
-        const existingActivity = acc.find(item => item.title === activity.title);
-        if (existingActivity) {
-          existingActivity.votes += activity.votes;
-        } else {
-          acc.push({ ...activity });
-        }
-        return acc;
-      }, []);
-
-      const sortedActivities = combinedActivities.sort((a, b) => b.votes - a.votes);
-      setActivities(sortedActivities);
+      setActivities(data);
     }
     setLoading(false);
     console.log('Finished fetching activities. Loading state:', false);
@@ -116,14 +105,11 @@ function App() {
         <ActivityForm onAddActivity={addActivity} />
         {loading && <p className="text-center text-gray-600">Loading activities...</p>}
         {error && <p className="text-center text-red-500">Error: {error}</p>}
-        {!loading && !error && (
-          <AnimatedList
-            items={activities.map(activity => ({ ...activity, onUpvote: upvoteActivity }))}
-            onItemSelect={(item) => upvoteActivity(item.id, item.votes)}
-            showGradients={true}
-            enableArrowNavigation={true}
-            displayScrollbar={true}
-          />
+        {!loading && !error && activities.length === 0 && (
+          <p className="text-center text-gray-600">No activities found. Add one!</p>
+        )}
+        {!loading && !error && activities.length > 0 && (
+          <ActivityList activities={activities} onUpvote={upvoteActivity} />
         )}
       </main>
       <footer className="w-full max-w-2xl text-center mt-8 text-gray-500 text-sm">
