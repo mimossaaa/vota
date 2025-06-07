@@ -110,7 +110,7 @@ function App() {
         )}
       </main>
       <footer className="w-full max-w-2xl text-center mt-8 text-gray-500 text-sm">
-        <p>&copy; {new Date().getFullYear()} Streamer Activity Ranker</p>
+        <p>&copy; {new Date().getFullYear()} Majid Rebouh - </p>
         <p>Built with React, Tailwind CSS, and Supabase</p>
       </footer>
     </div>
