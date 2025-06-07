@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient.js';
 import Header from './components/Header.jsx';
 import ActivityForm from './components/ActivityForm.jsx';
-import ActivityList from './components/ActivityList.jsx';
+import AnimatedList from './components/AnimatedList.jsx';
 // This comment is to force a new deployment attempt in case of a bug or faliure.
 
 function App() {
@@ -117,7 +117,13 @@ function App() {
         {loading && <p className="text-center text-gray-600">Loading activities...</p>}
         {error && <p className="text-center text-red-500">Error: {error}</p>}
         {!loading && !error && (
-          <ActivityList activities={activities} onUpvote={upvoteActivity} />
+          <AnimatedList
+            items={activities.map(activity => ({ ...activity, onUpvote: upvoteActivity }))}
+            onItemSelect={(item) => upvoteActivity(item.id, item.votes)}
+            showGradients={true}
+            enableArrowNavigation={true}
+            displayScrollbar={true}
+          />
         )}
       </main>
       <footer className="w-full max-w-2xl text-center mt-8 text-gray-500 text-sm">
