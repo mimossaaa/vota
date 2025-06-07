@@ -73,10 +73,11 @@ Follow these steps to set up the project locally and deploy it.
     *   Create a `.env` file in the root of the project (where `package.json` is located).
     *   Add your Supabase project URL and anon key:
         ```
-        VITE_SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL
-        VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+        VITE_SUPABASE_URL="YOUR_SUPABASE_PROJECT_URL"
+        VITE_SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_KEY"
         ```
-    *   Replace `YOUR_SUPABASE_PROJECT_URL` and `YOUR_SUPABASE_ANON_KEY` with the values you obtained from Supabase.
+    *   **Important:** Replace `"YOUR_SUPABASE_PROJECT_URL"` and `"YOUR_SUPABASE_ANON_KEY"` with the actual values you obtained from your Supabase project settings. Ensure these values are enclosed in double quotes.
+    *   **Note:** For local development, `VITE_` prefix is crucial for Vite to expose these variables to the client-side code.
 
 4.  **Run the Application Locally:**
     ```bash
