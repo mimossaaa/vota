@@ -7,7 +7,7 @@ function Header() {
         Vote on what Bruce does next! 🏀🐗
       </h1>
       <p className="text-xl text-gray-600">
-        Suggest and vote on ideas for upcoming streams.
+        ballhog shit
       </p>
     </header>
   );
