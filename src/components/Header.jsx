@@ -4,7 +4,7 @@ import RotatingText from './RotatingText.jsx';
 function Header() {
   return (
     <header className="w-full max-w-2xl text-center mb-8">
-      <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-700 leading-tight mb-4 animate-fade-in-down flex items-center">
+      <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-700 leading-tight mb-4 animate-fade-in-down flex items-center justify-center">
         Next stream, 
         <RotatingText
           texts={['cooking', 'fishing', 'try not to laugh']}
