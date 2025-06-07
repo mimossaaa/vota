@@ -47,20 +47,25 @@ const RotatingText = ({
           animate="visible"
           exit="hidden"
         >
-          {currentText.split('').map((char, i) => (
-            <motion.span
-              key={i}
-              className={splitLevelClassName}
-            >
-              <motion.span
-                initial={initial}
-                animate={animate}
-                exit={exit}
-                transition={transition}
-              >
-                {char}
-              </motion.span>
-            </motion.span>
+          {currentText.split(' ').map((word, wordIndex) => (
+            <span key={wordIndex} className="whitespace-nowrap">
+              {word.split('').map((char, charIndex) => (
+                <motion.span
+                  key={charIndex}
+                  className={splitLevelClassName}
+                >
+                  <motion.span
+                    initial={initial}
+                    animate={animate}
+                    exit={exit}
+                    transition={transition}
+                  >
+                    {char}
+                  </motion.span>
+                </motion.span>
+              ))}
+              {wordIndex < currentText.split(' ').length - 1 && <span>&nbsp;</span>}
+            </span>
           ))}
         </motion.div>
       </AnimatePresence>

@@ -8,7 +8,7 @@ function Header() {
         Next stream, 
         <RotatingText
           texts={['cooking', 'fishing', 'try not to laugh']}
-          mainClassName="bg-cyan-300 text-black py-0.5 sm:py-1 md:py-2 rounded-lg ml-2"
+          mainClassName="px-2 sm:px-2 md:px-3 bg-cyan-300 text-black py-1 sm:py-2 md:py-3 rounded-lg ml-2"
           staggerFrom={"last"}
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
