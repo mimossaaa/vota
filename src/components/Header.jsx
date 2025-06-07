@@ -7,7 +7,7 @@ function Header() {
       <h1 className="text-4xl sm:text-5xl font-extrabold text-blue-700 leading-tight mb-4 animate-fade-in-down flex justify-center items-center">
         Next Stream is
         <RotatingText
-          texts={['Cooking', 'Fishing', 'Sixbill', 'Kill DDG']}
+          texts={['Cooking', 'Fishing', 'Sixbill', 'Fortnite']}
           mainClassName="px-2 sm:px-2 md:px-3 bg-cyan-300 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg ml-2"
           staggerFrom={"last"}
           initial={{ y: "100%" }}
