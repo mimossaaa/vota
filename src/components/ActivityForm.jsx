@@ -33,7 +33,7 @@ function ActivityForm({ onAddActivity }) {
   };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 mb-8">
+    <div className="bg-white shadow-lg rounded-lg p-6 mb-8 transition-all duration-300 ease-in-out hover:shadow-lg">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Suggest a New Activity</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
