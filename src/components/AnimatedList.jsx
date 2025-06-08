@@ -6,7 +6,6 @@ const AnimatedList = ({
   onItemSelect,
   showGradients = false,
   enableArrowNavigation = false,
-  displayScrollbar = false,
   onUpvote
 }) => {
   const listRef = useRef(null);
@@ -56,12 +55,12 @@ const AnimatedList = ({
   };
 
   const listItemClassName = (index) => `
-    relative flex items-center border-b border-gray-300 py-4 cursor-pointer
+    relative flex items-center py-4 cursor-pointer
     ${highlightedIndex === index ? 'bg-gray-100' : ''}
   `;
 
   return (
-    <div className={`relative ${displayScrollbar ? 'overflow-y-auto' : 'overflow-hidden'} max-h-96 rounded-lg`}>
+    <div className="overflow-y-auto max-h-96 hides-scrollbar">
       {
         items.length === 0 ? (
           <p className="text-center text-gray-600 text-lg mt-8">
@@ -70,7 +69,7 @@ const AnimatedList = ({
         ) : (
           <motion.div
             ref={listRef}
-            className="py-2 border-t border-gray-300"
+            className="py-2"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -83,23 +82,26 @@ const AnimatedList = ({
                   className={listItemClassName(index)}
                   onClick={() => onItemSelect(item, index)}
                 >
-                  <div className="flex items-center flex-1">
-                    <span className="text-sm font-light text-gray-500 mr-4 select-none">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <h3 className="text-2xl font-normal text-gray-900 uppercase tracking-wide leading-tight">
+                  <div className="flex flex-col items-start flex-1">
+                    <h3 className="text-5xl font-normal text-gray-900 leading-tight mb-1">
                       {item.title}
                     </h3>
+                    <span className="text-lg font-light text-gray-500 mt-1">
+                      {item.year}
+                    </span>
                   </div>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       if (onUpvote) onUpvote(item.id, item.votes);
                     }}
-                    className="ml-4 text-3xl text-gray-700 hover:text-gray-900 transition-colors duration-200 ease-in-out focus:outline-none"
-                    title="Upvote this activity"
+                    className={`ml-4 px-3 py-1 border-2 border-gray-900 text-gray-900 font-bold text-sm uppercase leading-none
+                      ${item.hasVoted ? 'bg-gray-200 cursor-not-allowed' : 'hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900'}
+                    `}
+                    disabled={item.hasVoted}
+                    title={item.hasVoted ? 'You have already upvoted this activity' : 'Upvote this activity'}
                   >
-                    &#8599;
+                    {item.hasVoted ? 'Voted' : 'Upvote'}
                   </button>
                 </motion.div>
               ))}
