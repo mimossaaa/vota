@@ -24,21 +24,34 @@ function ActivityItem({ activity, onUpvote }) {
     }
   };
 
+  // For demonstration, using static date/time as 'activity' object does not contain this data.
+  // You would need to add 'date' and 'time' fields to your activity data in Supabase.
+  const displayDate = "25 janv. 2024"; // Example static date
+  const displayTime = "18:00"; // Example static time
+
   return (
-    <div className="flex items-center justify-between bg-white shadow-md rounded-lg p-4 mb-4 transition-all duration-300 ease-in-out hover:shadow-lg">
-      <div className="flex-1">
-        <h3 className="text-lg font-semibold text-gray-800">{activity.title}</h3>
-        <p className="text-gray-600">Votes: <span className="font-bold text-blue-600">{activity.votes}</span></p>
+    <div className="flex items-center border-b border-gray-300 py-6 pr-4">
+      {/* Title Column - first and taking up flexible space */}
+      <div className="flex-1 text-2xl font-normal text-gray-800 font-serif">
+        {activity.title}
       </div>
+
+      {/* Group for Time and Date - acting as the "Category" column */}
+      <div className="flex flex-col items-end ml-auto">
+        <div className="w-16 text-xl font-bold text-gray-800 font-serif">{displayTime}</div>
+        <div className="w-32 text-xl text-gray-700 font-serif">{displayDate}</div>
+      </div>
+
+      {/* Upvote Button - acting as the "Year" column, pushed to the far right */}
       <button
         onClick={handleUpvote}
         disabled={hasVoted}
-        className={`ml-4 px-5 py-2 rounded-lg text-white font-semibold transition-all duration-200 ease-in-out
-          ${hasVoted ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'}
+        className={`ml-8 px-4 py-2 text-gray-800 text-2xl font-bold font-serif hover:bg-gray-100 rounded-md transition-all duration-200 ease-in-out
+          ${hasVoted ? 'text-gray-400 cursor-not-allowed' : 'text-gray-800'}
         `}
         title={hasVoted ? 'You have already upvoted this activity' : 'Upvote this activity'}
       >
-        {hasVoted ? 'Voted! 👍' : 'Upvote ▲'}
+        ▲
       </button>
     </div>
   );

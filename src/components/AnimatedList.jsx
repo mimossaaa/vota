@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ActivityItem from './ActivityItem';
 
 const AnimatedList = ({
   items,
@@ -82,27 +83,7 @@ const AnimatedList = ({
                   className={listItemClassName(index)}
                   onClick={() => onItemSelect(item, index)}
                 >
-                  <div className="flex flex-col items-start flex-1">
-                    <h3 className="text-5xl font-normal text-gray-900 leading-tight mb-1">
-                      {item.title}
-                    </h3>
-                    <span className="text-lg font-light text-gray-500 mt-1">
-                      {item.year}
-                    </span>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (onUpvote) onUpvote(item.id, item.votes);
-                    }}
-                    className={`ml-4 px-3 py-1 border-2 border-gray-900 text-gray-900 font-bold text-sm uppercase leading-none
-                      ${item.hasVoted ? 'bg-gray-200 cursor-not-allowed' : 'hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900'}
-                    `}
-                    disabled={item.hasVoted}
-                    title={item.hasVoted ? 'You have already upvoted this activity' : 'Upvote this activity'}
-                  >
-                    {item.hasVoted ? 'Voted' : 'Upvote'}
-                  </button>
+                  <ActivityItem activity={item} onUpvote={onUpvote} />
                 </motion.div>
               ))}
             </AnimatePresence>
