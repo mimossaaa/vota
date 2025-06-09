@@ -1,7 +1,12 @@
+/* MODIFIED: Changed `display: flex` to `display: inline-flex` */
+/* This is the key change that allows the component to sit on the same line as */
+/* other text and respect the parent's `items-baseline` alignment. */
 .text-rotate {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   position: relative;
+  /* Add vertical-align to ensure it aligns well with text, especially with a background */
+  vertical-align: baseline;
 }
 
 .text-rotate-sr-only {
@@ -32,4 +37,4 @@
 
 .text-rotate-space {
   white-space: pre;
-} 
+}
