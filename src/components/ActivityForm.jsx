@@ -42,7 +42,7 @@ function ActivityForm({ onAddActivity }) {
   };
 
   return (
-    <div className="bg-white border-2 border-gray-900 p-6 mb-8">
+    <div className="bg-white border-2 border-gray-900 p-6 mb-8 text-left">
       <h2 className="text-2xl font-bold text-gray-800 mb-4 font-serif">Suggest a New Activity</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -59,13 +59,13 @@ function ActivityForm({ onAddActivity }) {
         </div>
         <button
           type="submit"
-          className="w-full flex justify-center py-2 px-4 border-2 border-gray-900 text-gray-900 font-bold text-sm uppercase leading-none hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed font-serif"
+          className="w-full flex justify-start py-2 px-4 border-2 border-gray-900 text-gray-900 font-bold text-sm uppercase leading-none hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed font-serif"
           disabled={submitting}
         >
           {submitting ? 'Suggesting...' : 'Suggest Activity'}
         </button>
         {message && (
-          <p className={`text-center text-sm ${message.type === 'error' ? 'text-red-600' : 'text-green-600'} font-serif`}>
+          <p className={`text-left text-sm ${message.type === 'error' ? 'text-red-600' : 'text-green-600'} font-serif`}>
             {message.text}
           </p>
         )}

@@ -99,20 +99,20 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex flex-col items-start py-8 px-4 sm:px-6 lg:px-8">
       <Header />
       <main className="flex-grow w-full max-w-2xl mt-8">
         <ActivityForm onAddActivity={addActivity} />
-        {loading && <p className="text-center text-gray-600">Loading activities...</p>}
-        {error && <p className="text-center text-red-500">Error: {error}</p>}
+        {loading && <p className="text-left text-gray-600">Loading activities...</p>}
+        {error && <p className="text-left text-red-500">Error: {error}</p>}
         {!loading && !error && activities.length === 0 && (
-          <p className="text-center text-gray-600">No activities found. Add one!</p>
+          <p className="text-left text-gray-600">No activities found. Add one!</p>
         )}
         {!loading && !error && activities.length > 0 && (
           <ActivityList activities={activities} onUpvote={upvoteActivity} />
         )}
       </main>
-      <footer className="w-full max-w-2xl text-center mt-8 text-gray-500 text-sm">
+      <footer className="w-full max-w-2xl text-left mt-8 text-gray-500 text-sm">
         <p>&copy; {new Date().getFullYear()} Majid Rebouh - </p>
         <p>Built with React, Tailwind CSS, and Supabase</p>
       </footer>
