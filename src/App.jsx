@@ -46,7 +46,7 @@ function App() {
     setLoading(true);
     const { data, error } = await supabase
       .from('activities')
-      .select('id, title, votes')
+      .select('id, title, votes, created_at')
       .order('votes', { ascending: false });
 
     if (error) {
