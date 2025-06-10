@@ -80,7 +80,7 @@ function App() {
   }
 
   async function upvoteActivity(id, currentVotes) {
-    console.log('Upvoting activity:', id, 'Current votes:', currentVotes);
+    console.log('upvoteActivity called in App.jsx for activity:', id, 'with current votes:', currentVotes);
     const { data, error } = await supabase
       .from('activities')
       .update({ votes: currentVotes + 1 })
@@ -88,11 +88,11 @@ function App() {
       .select();
 
     if (error) {
-      console.error('Error upvoting activity:', error.message);
+      console.error('Error upvoting activity in App.jsx:', error.message);
       setError(error.message);
       return null;
     } else {
-      console.log('Activity upvoted successfully:', data[0]);
+      console.log('Activity upvoted successfully in App.jsx:', data[0]);
       // Supabase realtime will handle the update to the list
       return data[0];
     }
@@ -113,7 +113,7 @@ function App() {
         )}
       </main>
       <footer className="w-full max-w-2xl text-left mt-8 text-gray-500 text-sm">
-        <p>&copy; {new Date().getFullYear()} Majid Rebouh - </p>
+        <p>&copy; {new Date().getFullYear()} Vota</p>
         <p>Built with React, Tailwind CSS, and Supabase</p>
       </footer>
     </div>

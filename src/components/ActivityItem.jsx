@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function ActivityItem({ activity, onUpvote, onActivityUpdate, isSelected, onClick }) {
+function ActivityItem({ activity, onUpvote, isSelected, onClick }) {
   const [hasVoted, setHasVoted] = useState(false);
 
   useEffect(() => {
@@ -12,6 +12,7 @@ function ActivityItem({ activity, onUpvote, onActivityUpdate, isSelected, onClic
   }, [activity.id]);
 
   const handleUpvote = async (e) => {
+    console.log('handleUpvote called for activity:', activity.id);
     e.stopPropagation(); // Prevent click from bubbling up to the item's onClick
     if (hasVoted) return; // Prevent multiple votes
 
@@ -22,9 +23,7 @@ function ActivityItem({ activity, onUpvote, onActivityUpdate, isSelected, onClic
       votedActivities[activity.id] = true;
       localStorage.setItem('votedActivities', JSON.stringify(votedActivities));
       setHasVoted(true);
-      if (onActivityUpdate) {
-        onActivityUpdate(updatedActivity); // Update parent state with the new activity
-      }
+      // onActivityUpdate(updatedActivity); // Removed: App.jsx now handles activity updates via Supabase subscription
     }
   };
 
@@ -48,7 +47,7 @@ function ActivityItem({ activity, onUpvote, onActivityUpdate, isSelected, onClic
     dateString = dateString.replace(/mars/i, 'mars.');
     dateString = dateString.replace(/avril/i, 'avr.');
     dateString = dateString.replace(/mai/i, 'mai.');
-    dateString = dateString.replace(/juin/i, 'juin.');
+    dateString = dateString.replace(/juin/i, 'june');
     dateString = dateString.replace(/juillet/i, 'juil.');
     dateString = dateString.replace(/août/i, 'août.');
     dateString = dateString.replace(/septembre/i, 'sept.');
@@ -85,12 +84,12 @@ function ActivityItem({ activity, onUpvote, onActivityUpdate, isSelected, onClic
       <button
         onClick={handleUpvote}
         disabled={hasVoted}
-        className={`px-4 py-2 text-gray-800 text-2xl font-bold font-serif hover:bg-gray-100 rounded-md transition-all duration-200 ease-in-out
-          ${hasVoted ? 'text-gray-400 cursor-not-allowed' : 'text-gray-800'}
+        className={`px-4 py-2 border border-gray-400 text-gray-800 text-lg font-bold font-serif hover:bg-gray-100 rounded-md transition-all duration-200 ease-in-out
+          ${hasVoted ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-gray-800'}
         `}
         title={hasVoted ? 'You have already upvoted this activity' : 'Upvote this activity'}
       >
-        ▲
+        Upvote
       </button>
     </div>
   );
