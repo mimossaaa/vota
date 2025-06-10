@@ -31,18 +31,18 @@ function ActivityItem({ activity, onUpvote }) {
 
   return (
     <div className="flex items-center border-b border-gray-300 py-6 pr-4">
-      {/* Title Column - first and taking up flexible space */}
-      <div className="flex-1 text-2xl font-normal text-gray-800 font-serif">
+      {/* Title Column - now first, without flex-1 to allow explicit spacing */}
+      <div className="text-2xl font-normal text-gray-800 font-serif">
         {activity.title}
       </div>
 
-      {/* Group for Time and Date - acting as the "Category" column */}
-      <div className="flex flex-col items-end ml-auto">
+      {/* Group for Time and Date - acting as the "Category" column, with significant left margin */}
+      <div className="flex flex-col items-end ml-20">
         <div className="w-16 text-xl font-bold text-gray-800 font-serif">{displayTime}</div>
         <div className="w-32 text-xl text-gray-700 font-serif">{displayDate}</div>
       </div>
 
-      {/* Upvote Button - acting as the "Year" column, pushed to the far right */}
+      {/* Upvote Button - acting as the "Year" column, pushed to the far right of the time/date */}
       <button
         onClick={handleUpvote}
         disabled={hasVoted}
