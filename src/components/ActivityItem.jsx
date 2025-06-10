@@ -30,14 +30,14 @@ function ActivityItem({ activity, onUpvote }) {
   const displayTime = "18:00"; // Example static time
 
   return (
-    <div className="flex items-center border-b border-gray-300 py-6 pr-4">
+    <div className="flex items-center border-b border-gray-300 py-10 pr-4">
       {/* Title Column - now first, without flex-1 to allow explicit spacing */}
       <div className="text-2xl font-normal text-gray-800 font-serif">
         {activity.title}
       </div>
 
       {/* Group for Time and Date - acting as the "Category" column, with significant left margin */}
-      <div className="flex flex-col items-end ml-20">
+      <div className="flex flex-col items-end ml-48">
         <div className="w-16 text-xl font-bold text-gray-800 font-serif">{displayTime}</div>
         <div className="w-32 text-xl text-gray-700 font-serif">{displayDate}</div>
       </div>
@@ -46,7 +46,7 @@ function ActivityItem({ activity, onUpvote }) {
       <button
         onClick={handleUpvote}
         disabled={hasVoted}
-        className={`ml-8 px-4 py-2 text-gray-800 text-2xl font-bold font-serif hover:bg-gray-100 rounded-md transition-all duration-200 ease-in-out
+        className={`ml-16 px-4 py-2 text-gray-800 text-2xl font-bold font-serif hover:bg-gray-100 rounded-md transition-all duration-200 ease-in-out
           ${hasVoted ? 'text-gray-400 cursor-not-allowed' : 'text-gray-800'}
         `}
         title={hasVoted ? 'You have already upvoted this activity' : 'Upvote this activity'}
