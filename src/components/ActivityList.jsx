@@ -38,7 +38,7 @@ function ActivityList({ activities, onUpvote }) {
   const hasMore = paginatedActivities.length < activities.length; // Determine hasMore based on actual activities length
 
   return (
-    <div className="max-h-96 overflow-y-auto">
+    <div className="max-h-96 overflow-y-auto scrollbar-hide">
       <InfiniteScrollList
         items={paginatedActivities}
         renderItem={(item, index, isSelected, handleItemClick) => (
