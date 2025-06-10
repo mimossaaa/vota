@@ -1,81 +1,46 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import InfiniteScrollList from './InfiniteScrollList.jsx';
 import ActivityItem from './ActivityItem.jsx';
-import { supabase } from '../supabaseClient.js'; // Import supabase client
+// import { supabase } from '../supabaseClient.js'; // Removed as activities are now passed via props
 
-function ActivityList({ onUpvote }) {
-  const [activities, setActivities] = useState([]);
+function ActivityList({ activities, onUpvote }) {
+  // Activities are now passed as a prop from App.jsx
+  // const [activities, setActivities] = useState([]); // Removed
   const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
   const ITEMS_PER_PAGE = 5;
 
-  const fetchActivities = useCallback(async (currentPage) => {
-    setIsLoading(true);
-    // Simulate a network delay removed, replaced with actual fetch delay if needed
+  // No longer fetching activities internally
+  // const fetchActivities = useCallback(async (currentPage) => { ... }); // Removed
 
-    const startIndex = currentPage * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE - 1;
-
-    const { data, error } = await supabase
-      .from('activities')
-      .select('id, title, created_at, votes') // Select required columns
-      .order('votes', { ascending: false }) // Primary sort: votes descending
-      .order('title', { ascending: true }) // Secondary sort: title ascending
-      .range(startIndex, endIndex);
-
-    if (error) {
-      console.error('Error fetching activities:', error.message);
-      setHasMore(false); // No more items on error
-    } else {
-      if (data && data.length > 0) {
-        setActivities((prevActivities) => {
-          // Filter out duplicates if any, especially important with real-time updates or re-fetches
-          const newActivityIds = new Set(data.map(a => a.id));
-          const filteredPrevActivities = prevActivities.filter(a => !newActivityIds.has(a.id));
-          return [...filteredPrevActivities, ...data];
-        });
-        setPage((prevPage) => prevPage + 1);
-        if (data.length < ITEMS_PER_PAGE) {
-          setHasMore(false);
-        }
-      } else {
-        setHasMore(false); // No more items if data is empty
-      }
-    }
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    // Only fetch on initial load if no activities are present
-    if (activities.length === 0 && !isLoading && hasMore) {
-      fetchActivities(0);
-    }
-  }, [activities.length, isLoading, hasMore, fetchActivities]);
+  // No longer a need for this useEffect as activities are managed by App.jsx
+  // useEffect(() => { ... }, []); // Removed
 
   const loadMore = useCallback(() => {
-    if (hasMore && !isLoading) {
-      fetchActivities(page);
+    // This function's logic needs to be revisited if we implement pagination
+    // where App.jsx fetches paginated data. For now, it's a placeholder.
+    console.log('Load more called, but activities are managed by App.jsx');
+    // As all activities are passed, hasMore might always be false if all are loaded at once.
+    // Or, we need to pass a 'totalActivitiesCount' from App.jsx to properly calculate hasMore.
+    if (activities.length > (page + 1) * ITEMS_PER_PAGE) {
+      setPage(prevPage => prevPage + 1);
     }
-  }, [hasMore, isLoading, fetchActivities, page]);
+  }, [activities.length, page, ITEMS_PER_PAGE]);
 
   const handleItemSelect = useCallback((item, index) => {
     console.log(`Selected item: ${item.title} at index ${index}`);
     // Existing item selection logic
   }, []);
 
-  const handleActivityUpdate = useCallback((updatedActivity) => {
-    setActivities(prevActivities =>
-      prevActivities.map(activity =>
-        activity.id === updatedActivity.id ? updatedActivity : activity
-      )
-    );
-  }, []);
+  // handleActivityUpdate is no longer needed here as App.jsx manages activity updates
+  // const handleActivityUpdate = useCallback((updatedActivity) => { ... }); // Removed
+
+  const paginatedActivities = activities.slice(0, (page + 1) * ITEMS_PER_PAGE);
+  const hasMore = paginatedActivities.length < activities.length; // Determine hasMore based on actual activities length
 
   return (
     <div className="max-h-96 overflow-y-auto">
       <InfiniteScrollList
-        items={activities}
+        items={paginatedActivities}
         renderItem={(item, index, isSelected, handleItemClick) => (
           <ActivityItem
             key={item.id}
@@ -83,19 +48,21 @@ function ActivityList({ onUpvote }) {
             onUpvote={onUpvote}
             isSelected={isSelected}
             onClick={handleItemClick}
-            onActivityUpdate={handleActivityUpdate}
+            // onActivityUpdate is no longer needed here
           />
         )}
         onItemSelect={handleItemSelect}
         loadMoreItems={loadMore}
         hasMore={hasMore}
-        isLoading={isLoading}
+        isLoading={false} // isLoading should be managed by App.jsx or determined based on fetch status there
         enableArrowNavigation={true}
         scrollThreshold={200}
       />
 
-      {isLoading && hasMore && <p className="text-center text-gray-600 my-4">Loading more activities...</p>}
-      {!hasMore && !isLoading && activities.length > 0 && <p className="text-center text-gray-600 my-4">You've reached the end of the list.</p>}
+      {/* Conditional rendering for loading and end of list. Adjust as needed. */}
+      {/* If App.jsx handles loading, these messages might not be needed here */}
+      {/* {isLoading && <p className="text-center text-gray-600 my-4">Loading more activities...</p>}
+      {!hasMore && paginatedActivities.length > 0 && <p className="text-center text-gray-600 my-4">You've reached the end of the list.</p>} */}
     </div>
   );
 }
