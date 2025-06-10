@@ -56,12 +56,12 @@ const AnimatedList = ({
   };
 
   const listItemClassName = (index) => `
-    relative flex items-center py-4 cursor-pointer
+    relative flex items-center cursor-pointer
     ${highlightedIndex === index ? 'bg-gray-100' : ''}
   `;
 
   return (
-    <div className="overflow-y-auto max-h-96 hides-scrollbar">
+    <div className="">
       {
         items.length === 0 ? (
           <p className="text-center text-gray-600 text-lg mt-8">
@@ -90,10 +90,6 @@ const AnimatedList = ({
           </motion.div>
         )
       }
-
-      {showGradients && (
-        <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
-      )}
     </div>
   );
 };

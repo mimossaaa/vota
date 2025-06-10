@@ -101,7 +101,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col items-start py-8 px-4 sm:px-6 lg:px-8">
       <Header />
-      <main className="flex-grow w-full max-w-2xl mt-8">
+      <main className="flex-grow mt-8">
         <ActivityForm onAddActivity={addActivity} />
         {loading && <p className="text-left text-gray-600">Loading activities...</p>}
         {error && <p className="text-left text-red-500">Error: {error}</p>}

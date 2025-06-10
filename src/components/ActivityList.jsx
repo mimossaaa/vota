@@ -3,13 +3,12 @@ import AnimatedList from './AnimatedList.jsx';
 
 function ActivityList({ activities, onUpvote, onAddActivity }) {
   return (
-    <div className="w-full">
+    <div className="">
       <AnimatedList
         items={activities}
         onItemSelect={() => { /* No-op for now, as selection isn't in scope */ }}
         onUpvote={onUpvote}
         enableArrowNavigation={true}
-        displayScrollbar={true}
       />
     </div>
   );
