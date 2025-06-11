@@ -26,7 +26,36 @@ function App() {
           { event: '*', schema: 'public', table: 'activities' },
           payload => {
             console.log('Supabase realtime change received:', payload);
-            getActivities(); // Re-fetch activities on any change
+            // getActivities(); // Re-fetch activities on any change - replace with granular updates
+
+            setActivities(prevActivities => {
+              let newActivities = [...prevActivities];
+              const { eventType, new: newRecord, old: oldRecord } = payload;
+
+              switch (eventType) {
+                case 'INSERT':
+                  // Add new activity if it doesn't already exist (to prevent duplicates from initial fetch)
+                  if (!newActivities.find(activity => activity.id === newRecord.id)) {
+                    newActivities = [...newActivities, newRecord];
+                  }
+                  break;
+                case 'UPDATE':
+                  // Find and replace the updated activity
+                  newActivities = newActivities.map(activity =>
+                    activity.id === newRecord.id ? newRecord : activity
+                  );
+                  break;
+                case 'DELETE':
+                  // Remove the deleted activity
+                  newActivities = newActivities.filter(activity => activity.id !== oldRecord.id);
+                  break;
+                default:
+                  break;
+              }
+
+              // Re-sort the activities after update to maintain order
+              return newActivities.sort((a, b) => b.votes - a.votes);
+            });
           }
         )
         .subscribe();
@@ -81,6 +110,14 @@ function App() {
 
   async function upvoteActivity(id, currentVotes) {
     console.log('upvoteActivity called in App.jsx for activity:', id, 'with current votes:', currentVotes);
+
+    // Optimistic UI update
+    setActivities(prevActivities => {
+      return prevActivities.map(activity =>
+        activity.id === id ? { ...activity, votes: activity.votes + 1 } : activity
+      ).sort((a, b) => b.votes - a.votes); // Re-sort to maintain order
+    });
+
     const { data, error } = await supabase
       .from('activities')
       .update({ votes: currentVotes + 1 })
@@ -90,10 +127,16 @@ function App() {
     if (error) {
       console.error('Error upvoting activity in App.jsx:', error.message);
       setError(error.message);
+      // Revert optimistic update if there's an error
+      setActivities(prevActivities => {
+        return prevActivities.map(activity =>
+          activity.id === id ? { ...activity, votes: currentVotes } : activity
+        ).sort((a, b) => b.votes - a.votes); // Re-sort to maintain order
+      });
       return null;
     } else {
       console.log('Activity upvoted successfully in App.jsx:', data[0]);
-      // Supabase realtime will handle the update to the list
+      // Supabase realtime will handle the final update and re-sort
       return data[0];
     }
   }
