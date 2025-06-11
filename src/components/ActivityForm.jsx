@@ -4,7 +4,7 @@ function ActivityForm({ onAddActivity }) {
   const [activityTitle, setActivityTitle] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
-  const forbiddenWords = ["banned", "badword", "xxx"]; // Example forbidden words, can be passed as prop later
+  const forbiddenWords = ["nigger", "faggot", "whore", "nigga", "nigg3r", "n1gger"]; // Example forbidden words, can be passed as prop later
 
   const handleSubmit = async (e) => {
     e.preventDefault();
