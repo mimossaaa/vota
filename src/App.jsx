@@ -34,10 +34,8 @@ function App() {
 
               switch (eventType) {
                 case 'INSERT':
-                  // Add new activity if it doesn't already exist (to prevent duplicates from initial fetch)
-                  if (!newActivities.find(activity => activity.id === newRecord.id)) {
-                    newActivities = [...newActivities, newRecord];
-                  }
+                  // Add new activity, assuming it's not a duplicate if it comes from real-time INSERT
+                  newActivities = [...newActivities, newRecord];
                   break;
                 case 'UPDATE':
                   // Find and replace the updated activity
@@ -53,8 +51,14 @@ function App() {
                   break;
               }
 
-              // Re-sort the activities after update to maintain order
-              return newActivities.sort((a, b) => b.votes - a.votes);
+              // Re-sort the activities after update to maintain order: created_at (newest first), then votes (highest first)
+              return newActivities.sort((a, b) => {
+                const dateComparison = new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+                if (dateComparison !== 0) {
+                  return dateComparison;
+                }
+                return b.votes - a.votes;
+              });
             });
           }
         )
@@ -76,6 +80,9 @@ function App() {
     const { data, error } = await supabase
       .from('activities')
       .select('id, title, votes, created_at')
+      // Primary sort: created_at descending (newest first)
+      .order('created_at', { ascending: false })
+      // Secondary sort: votes descending
       .order('votes', { ascending: false });
 
     if (error) {
@@ -102,7 +109,7 @@ function App() {
       setError(error.message);
       return null;
     } else {
-      console.log('Activity added successfully:', data[0]);
+      console.log('Activity added successfully in addActivity:', data[0]);
       // Supabase realtime will handle the update to the list
       return data[0];
     }
