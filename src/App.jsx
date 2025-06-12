@@ -51,13 +51,13 @@ function App() {
                   break;
               }
 
-              // Re-sort the activities after update to maintain order: created_at (newest first), then votes (highest first)
+              // Re-sort the activities after update to maintain order: votes (highest first), then created_at (newest first)
               return newActivities.sort((a, b) => {
-                const dateComparison = new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-                if (dateComparison !== 0) {
-                  return dateComparison;
+                const voteComparison = b.votes - a.votes;
+                if (voteComparison !== 0) {
+                  return voteComparison;
                 }
-                return b.votes - a.votes;
+                return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
               });
             });
           }
@@ -80,10 +80,10 @@ function App() {
     const { data, error } = await supabase
       .from('activities')
       .select('id, title, votes, created_at')
-      // Primary sort: created_at descending (newest first)
-      .order('created_at', { ascending: false })
-      // Secondary sort: votes descending
-      .order('votes', { ascending: false });
+      // Primary sort: votes descending
+      .order('votes', { ascending: false })
+      // Secondary sort: created_at descending (for tie-breaking)
+      .order('created_at', { ascending: false });
 
     if (error) {
       console.error('Error fetching activities:', error.message);
