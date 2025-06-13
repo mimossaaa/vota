@@ -1,10 +1,11 @@
 // This comment is to force a new deployment attempt in case of a bug or faliure.
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 import { supabase } from './supabaseClient.js';
 import Header from './components/Header.jsx';
 import ActivityForm from './components/ActivityForm.jsx';
 import ActivityList from './components/ActivityList.jsx';
+import About from './components/About.jsx';
 // This comment is to force a new deployment attempt in case of a bug or faliure.
 
 function App() {
@@ -150,22 +151,33 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col items-start py-8 px-4 sm:px-6 lg:px-8">
-      <Header />
-      <main className="flex-grow mt-8">
-        <ActivityForm onAddActivity={addActivity} />
-        {loading && <p className="text-left text-gray-600">Loading activities...</p>}
-        {error && <p className="text-left text-red-500">Error: {error}</p>}
-        {!loading && !error && activities.length === 0 && (
-          <p className="text-left text-gray-600">No activities found. Add one!</p>
-        )}
-        {!loading && !error && activities.length > 0 && (
-          <ActivityList activities={activities} onUpvote={upvoteActivity} />
-        )}
-      </main>
-      <footer className="w-full max-w-2xl text-left mt-8 text-gray-500 text-sm">
-        <p>&copy; {new Date().getFullYear()} Vota</p>
-        <p>Built with React, Tailwind CSS, and Supabase</p>
-      </footer>
+      <nav className="w-full max-w-2xl mb-6 flex gap-6 text-lg font-serif">
+        <Link to="/" className="hover:underline">Home</Link>
+        <Link to="/about" className="hover:underline">About</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={
+          <>
+            <Header />
+            <main className="flex-grow mt-8">
+              <ActivityForm onAddActivity={addActivity} />
+              {loading && <p className="text-left text-gray-600">Loading activities...</p>}
+              {error && <p className="text-left text-red-500">Error: {error}</p>}
+              {!loading && !error && activities.length === 0 && (
+                <p className="text-left text-gray-600">No activities found. Add one!</p>
+              )}
+              {!loading && !error && activities.length > 0 && (
+                <ActivityList activities={activities} onUpvote={upvoteActivity} />
+              )}
+            </main>
+            <footer className="w-full max-w-2xl text-left mt-8 text-gray-500 text-sm">
+              <p>&copy; {new Date().getFullYear()} Vota</p>
+              <p>Built with React, Tailwind CSS, and Supabase</p>
+            </footer>
+          </>
+        } />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </div>
   );
 }
