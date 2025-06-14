@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
+const DEFAULT_ABOUT = `Majid H Rebouh\nmimossaaa\nUC Berkeley Genetics and BioE student passionate about synthetic biology, biotechnology, machine learning, and robotics.\n\nAbout this site:\nVota is a real-time activity suggestion and ranking platform. Suggest new activities, upvote your favorites, and see the most popular ideas rise to the top instantly! Powered by React, Tailwind CSS, and Supabase.`;
+
 function About() {
   const [aboutText, setAboutText] = useState('');
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('aboutInfo');
-    if (saved) setAboutText(saved);
+    setAboutText(saved || DEFAULT_ABOUT);
   }, []);
 
   const handleSave = () => {
