@@ -9,10 +9,10 @@ Vota is a real-time activity suggestion and ranking platform. Suggest new activi
 
 function About() {
   return (
-    <div className="min-h-screen flex flex-col items-start py-8 px-4 sm:px-6 lg:px-8 bg-gray-100 text-gray-900 font-sans">
-      <div className="flex-grow w-full max-w-2xl mx-auto py-8 text-center">
-        <h1 className="text-5xl mb-6 font-bold font-serif">About This Project</h1>
-        <pre className="text-lg whitespace-pre-line break-words leading-relaxed font-serif">{DEFAULT_ABOUT}</pre>
+    <div className="min-h-screen flex flex-col items-start py-8 px-4 sm:px-6 lg:px-8 bg-white text-gray-900 font-sans">
+      <div className="flex-grow w-full max-w-2xl mx-auto py-12 text-center">
+        <h1 className="text-6xl mb-8 font-bold font-serif">About This Project</h1>
+        <pre className="text-xl whitespace-pre-line break-words leading-relaxed font-serif">{DEFAULT_ABOUT}</pre>
       </div>
     </div>
   );
